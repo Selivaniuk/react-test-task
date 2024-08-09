@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function App() {
   return (
     <div className="App">
@@ -7,5 +5,5 @@ export default function App() {
         <p>hello there</p>
       </header>
     </div>
-  )
+  );
 }
