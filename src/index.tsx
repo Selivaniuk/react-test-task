@@ -7,11 +7,13 @@ import "./styles/index.css";
 import { BrowserRouter } from "react-router-dom";
 
 const rootView = document.getElementById("root");
+export const basename =
+  process.env.NODE_ENV === "production" ? process.env.PUBLIC_URL : "";
 
 if (rootView) {
   const root = createRoot(rootView);
   root.render(
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <StrictMode>
         <App />
       </StrictMode>
