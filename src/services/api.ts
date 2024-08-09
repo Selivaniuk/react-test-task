@@ -80,9 +80,23 @@ const products: Product[] = [
   },
 ];
 
-function getSizes() {
-  return new Promise<Size[]>((resolve) => {
-    setTimeout(() => resolve(sizes), 250);
+function getSizes(productID?: number) {
+  return new Promise<Size[]>((resolve, reject) => {
+    setTimeout(() => {
+      if (!productID) {
+        resolve(sizes);
+      }
+      const targetProduct = products.find(
+        (product) => product.id === productID
+      );
+      if (!targetProduct) {
+        reject(new Error("getSizes: Product not found"));
+      }
+      const productSizeIds = [
+        ...new Set(targetProduct?.colors.flatMap((color) => color.sizes)),
+      ];
+      resolve(sizes.filter((size) => productSizeIds.includes(size.id)));
+    }, 250);
   });
 }
 

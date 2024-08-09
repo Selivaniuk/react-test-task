@@ -1,9 +1,10 @@
+import AppRouter from "components/AppRouter/AppRouter";
+import Layout from "components/Layout/Layout";
+
 export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>hello there</p>
-      </header>
-    </div>
+    <Layout>
+      <AppRouter />
+    </Layout>
   );
 }
