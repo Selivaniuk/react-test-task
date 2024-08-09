@@ -1,22 +1,29 @@
 import { useState, useEffect } from "react";
 
 type ApiFunction<T, Args extends any[]> = (...args: Args) => Promise<T>;
-
 interface ApiResult<T> {
   data: T | null;
   error: string | null;
   isLoading: boolean;
 }
 
+interface options {
+  skip?: boolean;
+}
+
 function useApi<T, Args extends any[]>(
   apiFunction: ApiFunction<T, Args>,
-  ...args: Args
+  args: Args = [] as unknown as Args,
+  options: options = {}
 ): ApiResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
+    if (options.skip) {
+      return;
+    }
+
     const abortController = new AbortController();
     const isAborted = abortController.signal.aborted;
 
@@ -43,7 +50,7 @@ function useApi<T, Args extends any[]>(
       setError(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiFunction, ...args]);
+  }, [apiFunction, ...args, options.skip]);
 
   return { data, error, isLoading };
 }

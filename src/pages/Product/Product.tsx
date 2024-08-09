@@ -3,7 +3,7 @@ import Loader from "components/Loader/Loader";
 import useApi from "hooks/useApi";
 import ErrorPage from "pages/Error/Error";
 import { useLocation, useParams } from "react-router-dom";
-import { getProduct, getSizes } from "services/api";
+import { getProduct, getProductColor, getSize, getSizes } from "services/api";
 import ProductProvider from "./provider/ProductProvider";
 import SizeSelect from "./components/SizeSelect/SizeSelect";
 import ColorInfo from "./components/ColorInfo/ColorInfo";
@@ -16,16 +16,28 @@ const Product: React.FC = () => {
   const productID = Number(id);
   const { search } = useLocation();
   const defaultColorId = new URLSearchParams(search).get("color");
-  const { data: product, error, isLoading } = useApi(getProduct, productID);
+  const defaultSizeId = new URLSearchParams(search).get("size");
+
+  const { data: defaultColor } = useApi(
+    getProductColor,
+    [productID, Number(defaultColorId)],
+    { skip: !productID || !defaultColorId }
+  );
+
+  const { data: defaultSize } = useApi(getSize, [Number(defaultSizeId)], {
+    skip: !defaultSizeId,
+  });
+
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useApi(getProduct, [productID], { skip: !productID });
   const {
     data: sizes,
     error: sizesError,
     isLoading: sizesIsLoading,
   } = useApi(getSizes);
-
-  if (isNaN(productID)) {
-    return <ErrorPage message="Failed to load product" />;
-  }
 
   if (isLoading || sizesIsLoading) {
     return <Loader />;
@@ -45,14 +57,24 @@ const Product: React.FC = () => {
     return <ErrorPage message="Failed to load sizes" />;
   }
 
-  const firstColorId = product.colors[0].id;
-  const currentColorId = defaultColorId ? Number(defaultColorId) : firstColorId;
-  const firstSizeId = product.colors[currentColorId].sizes[0];
+  const currentColorId = defaultColor ? defaultColor.id : product.colors[0].id;
+  let currentSizeId = product.colors.find(
+    (color) => color.id === defaultColor?.id
+  )?.sizes[0];
+
+  if (defaultSize) {
+    const currentColor = product.colors.find(
+      (color) => color.id === currentColorId
+    );
+    if (currentColor?.sizes.some((size) => size === defaultSize.id)) {
+      currentSizeId = defaultSize.id;
+    }
+  }
 
   return (
     <ProductProvider
       defaultColorId={currentColorId}
-      defaultSizeId={firstSizeId}
+      defaultSizeId={currentSizeId}
     >
       <div className={styles.product}>
         <div className={styles.left}>

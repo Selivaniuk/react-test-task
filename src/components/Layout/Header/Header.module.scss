@@ -17,4 +17,7 @@
 }
 .activeLink {
   color: #61dafb;
+  > span {
+    color: #fff;
+  }
 }

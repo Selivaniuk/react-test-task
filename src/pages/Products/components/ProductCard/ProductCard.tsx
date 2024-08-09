@@ -8,7 +8,8 @@ interface Props {
   product: Product;
 }
 const ProductCard: React.FC<Props> = ({ product }) => {
-  const { data: sizes, error, isLoading } = useApi(getSizes, product.id);
+  const { data: sizes, error, isLoading } = useApi(getSizes, [product.id]);
+
   if (isLoading || error || !sizes || sizes.length === 0) {
     return null;
   }
@@ -27,7 +28,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             </div>
             <Link
               className={styles.title}
-              to={`product/${product.id}?color=${color.id}`}
+              to={`/product/${product.id}?color=${color.id}`}
             >
               {product.name}
             </Link>

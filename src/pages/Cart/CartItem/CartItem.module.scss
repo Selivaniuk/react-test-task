@@ -21,12 +21,13 @@
     object-fit: contain;
   }
 }
-
-.sizesWrap {
-  display: flex;
-  gap: 6px;
-}
-.sizes {
-  display: flex;
-  gap: 4px;
+.removeBtn {
+  width: max-content;
+  padding: 8px 12px;
+  font-size: 18px;
+  background: none;
+  color: #fc5353;
+  border: 1px solid #fc5353;
+  border-radius: 4px;
+  cursor: pointer;
 }
