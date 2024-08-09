@@ -1,3 +1,7 @@
+# [Демо](https://selivaniuk.github.io/react-test-task)
+
+https://selivaniuk.github.io/react-test-task
+
 # Задача:
 
 Используя ReactJS сделать три страницы каталога товаров:
