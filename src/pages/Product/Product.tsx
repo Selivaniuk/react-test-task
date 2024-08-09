@@ -11,16 +11,21 @@ import ImageSlider from "./components/Gallery/Gallery";
 import ColorSelect from "./components/ColorSelect/ColorSelect";
 import BuyButton from "./components/BuyButton/BuyButton";
 
-const Product = () => {
+const Product: React.FC = () => {
   const { id } = useParams();
+  const productID = Number(id);
   const { search } = useLocation();
   const defaultColorId = new URLSearchParams(search).get("color");
-  const { data: product, error, isLoading } = useApi(getProduct, Number(id));
+  const { data: product, error, isLoading } = useApi(getProduct, productID);
   const {
     data: sizes,
     error: sizesError,
     isLoading: sizesIsLoading,
   } = useApi(getSizes);
+
+  if (isNaN(productID)) {
+    return <ErrorPage message="Failed to load product" />;
+  }
 
   if (isLoading || sizesIsLoading) {
     return <Loader />;
@@ -58,7 +63,7 @@ const Product = () => {
           <ColorSelect colors={product.colors} />
           <SizeSelect sizes={sizes} colors={product.colors} />
           <ColorInfo colors={product.colors} />
-          <BuyButton />
+          <BuyButton productID={productID} />
         </div>
       </div>
     </ProductProvider>

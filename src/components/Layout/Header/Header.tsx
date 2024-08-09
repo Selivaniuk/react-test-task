@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.scss";
 import { routes } from "components/AppRouter/routeConfig";
+import CartCount from "./CartCount/CartCount";
 
 const Header = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const Header = () => {
                 }
               >
                 {name}
+                {path === "/cart" && <CartCount />}
               </Link>
             )
         )}

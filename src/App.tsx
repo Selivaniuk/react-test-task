@@ -1,10 +1,13 @@
 import AppRouter from "components/AppRouter/AppRouter";
+import CartProvider from "components/CartProvider/CartProvider";
 import Layout from "components/Layout/Layout";
 
 export default function App() {
   return (
-    <Layout>
-      <AppRouter />
-    </Layout>
+    <CartProvider>
+      <Layout>
+        <AppRouter />
+      </Layout>
+    </CartProvider>
   );
 }

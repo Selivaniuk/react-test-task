@@ -1,7 +1,19 @@
-.buyBtn {
+.btn {
   width: max-content;
-  font-size: 18px;
-  border: none;
   padding: 8px 12px;
   margin: 48px 0px 0px auto;
+  font-size: 18px;
+  background: none;
+  border: 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.buyBtn {
+  color: #61dafb;
+  border-color: #61dafb;
+}
+.removeBtn {
+  color: #fc5353;
+  border-color: #fc5353;
 }
